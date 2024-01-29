@@ -22,7 +22,7 @@ router.get('/', async (req, res, next) => {
 // GET - /api/video-games/:id - get a single video game by id
 router.get('/:id', async (req, res, next) => {
     try {
-        const videoGame = await getVideoGameById(REPLACE_ME);
+        const videoGame = await getVideoGameById(req.params.id);
         res.send(videoGame);
     } catch (error) {
         next(error);
@@ -30,19 +30,38 @@ router.get('/:id', async (req, res, next) => {
 });
 
 // POST - /api/video-games - create a new video game
-router.patch('/', async (req, res, next) => {
+// router.patch('/', async (req, res, next) => {
     // LOGIC GOES HERE 
-});
+    router.post('/', async (req, res, next) => {
+        try {
+            const newVideoGame = await createVideoGame(req.body);
+            res.send(newVideoGame);
+        } catch (error) {
+            next(error);
+        }
+    });
+// });
 
 
 // PUT - /api/video-games/:id - update a single video game by id
 router.put('/:id', async (req, res, next) => {
-    // LOGIC GOES HERE 
+    try {
+        const VideoGame = await updateVideoGame(req.params.id, req.body);
+        res.send(VideoGame);
+    } catch (error) {
+        next(error);
+    }
 });
 
 // DELETE - /api/video-games/:id - delete a single video game by id
 router.delete('/:id', async (req, res, next) => {
-    // LOGIC GOES HERE
+    try {
+        const videoGame = await deleteVideoGame(req.params.id);
+        res.send(videoGame);
+    } catch (error) {
+        next(error);
+    }
 });
 
 module.exports = router;
+
